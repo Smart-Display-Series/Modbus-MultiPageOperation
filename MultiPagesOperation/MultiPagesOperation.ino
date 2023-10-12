@@ -40,7 +40,7 @@
 #define WIDGET_P2_BUTTON_PREV 1
 #define WIDGET_P2_GRAPH 2
 
-#define MAX_WIDGETS_PER_PAGE 4
+#define MAX_WIDGETS_PER_PAGE 6
 
 // I/O
 #define METER_PIN A0
