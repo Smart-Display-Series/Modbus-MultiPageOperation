@@ -32,7 +32,9 @@
 #define WIDGET_P1_TEXT_TITLE 0
 #define WIDGET_P1_BUTTON_NEXT 1
 #define WIDGET_P1_BUTTON_PREV 2
-#define WIDGET_P1_BUTTON_BUZZER 3
+#define WIDGET_P1_BUTTON_BUZZER_1 3
+#define WIDGET_P1_BUTTON_BUZZER_2 4
+#define WIDGET_P1_BUTTON_BUZZER_3 5
 
 #define WIDGET_P2_TEXT_TITLE 0
 #define WIDGET_P2_BUTTON_PREV 1
@@ -155,9 +157,9 @@ bool setBrightness(uint8_t brightness) {
     return true;
 }
 
-void Buzzer() {
+void Buzzer(uint8_t high) {
     static uint8_t cycle = 1;   // Repeat count
-    static uint8_t high = 10;   // Buzzer-ON counter
+    //static uint8_t high = 10;   // Buzzer-ON counter
     static uint8_t low = 0;     // Buzzer-OFF counter
     static uint8_t active = 1;  // After power-on, the internal value of active is 1
 
@@ -225,6 +227,7 @@ void Page0_Handler(bool init, uint16_t *values) {
 /*
 *   WIDGET_P1_BUTTON_NEXT           goto PAGE_2
 *   WIDGET_P1_BUTTON_PREV           goto PAGE_0
+*   WIDGET_P2_BUTTON_BEEP
 */
 void Page1_Handler(bool init, uint16_t *values) {
     if (init) {
@@ -243,11 +246,24 @@ void Page1_Handler(bool init, uint16_t *values) {
         }
         values[WIDGET_P1_BUTTON_PREV] = value;
 
-        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER);
-        if (values[WIDGET_P1_BUTTON_BUZZER] == 0 && value != 0) {
-            Buzzer();
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_1);
+        if (values[WIDGET_P1_BUTTON_BUZZER_1] == 0 && value != 0) {
+            Buzzer(10);
         }
-        values[WIDGET_P1_BUTTON_BUZZER] = value;
+        values[WIDGET_P1_BUTTON_BUZZER_1] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_2);
+        if (values[WIDGET_P1_BUTTON_BUZZER_2] == 0 && value != 0) {
+            Buzzer(30);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_2] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_3);
+        if (values[WIDGET_P1_BUTTON_BUZZER_3] == 0 && value != 0) {
+            Buzzer(60);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_3] = value;
+
     }
 }
 
