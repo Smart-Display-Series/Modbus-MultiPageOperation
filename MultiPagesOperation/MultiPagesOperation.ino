@@ -8,16 +8,16 @@
 *   you must use other methods, such as SoftwareSerial.
 */
 #include <ModbusMaster.h>
-#include <SoftwareSerial.h>     // For debug information
+#include <SoftwareSerial.h>  // For debug information
 #include "SmartDisplayModbus.h"
 
 /******************************************************************************
 *                             Constants Definition
 *******************************************************************************/
 // Brightness
-#define MAX_BRIGHTNESS  100
-#define MIN_BRIGHTNESS  0
-#define BRIGHTNESS_STEP 1      
+#define MAX_BRIGHTNESS 100
+#define MIN_BRIGHTNESS 0
+#define BRIGHTNESS_STEP 1
 
 // Page ID
 #define PAGE_0 0
@@ -44,7 +44,7 @@
 
 // I/O
 #define METER_PIN A0
-#define METER_READ_PERIOD 100   // milliseconds
+#define METER_READ_PERIOD 100  // milliseconds
 
 /******************************************************************************
 *                             Data Type/Structure
@@ -68,7 +68,7 @@ void Page2_Handler(bool init, uint16_t *values);
 *******************************************************************************/
 
 // Serial for debugging
-SoftwareSerial mySerial(2, 3);  // Rx, Tx 
+SoftwareSerial mySerial(2, 3);  // Rx, Tx
 
 // Modbus object
 ModbusMaster _node;
@@ -117,19 +117,21 @@ uint8_t getPageCount() {
 
 bool setPageIndex(uint8_t pageIdx) {
 
-    bool ret =  ((_node.writeSingleRegister(SMARTDISPLAY_MODE, CONFIG_MODE) == _node.ku8MBSuccess) && 
-                (_node.writeSingleRegister(SMARTDISPLAY_SET_PAGE, (uint16_t)pageIdx) == _node.ku8MBSuccess) &&
-                (_node.writeSingleRegister(SMARTDISPLAY_MODE, DISPLAY_MODE) == _node.ku8MBSuccess));
-    
+    bool ret = false;
+    if ((_node.writeSingleRegister(SMARTDISPLAY_MODE, CONFIG_MODE) == _node.ku8MBSuccess) && (_node.writeSingleRegister(SMARTDISPLAY_SET_PAGE, (uint16_t)pageIdx) == _node.ku8MBSuccess)) {
+        delay(10);  // wait for loading widgets for new page
+        if (_node.writeSingleRegister(SMARTDISPLAY_MODE, DISPLAY_MODE) == _node.ku8MBSuccess) {
+            ret = true;
+        }
+    }
     //------- Debug Message -----------
     mySerial.print("Change to page ");
     mySerial.print(pageIdx);
-    if(ret) 
+    if (ret)
         mySerial.println(" OK");
     else
         mySerial.println(" failed");
     //---------------------------------
-
     return ret;
 }
 
@@ -138,32 +140,32 @@ void setNextPage(uint8_t pageIdx) {
 }
 
 bool setBrightness(uint8_t brightness) {
-    if(brightness > MAX_BRIGHTNESS)
+    if (brightness > MAX_BRIGHTNESS)
         brightness = MAX_BRIGHTNESS;
-    else if(brightness < MIN_BRIGHTNESS)
+    else if (brightness < MIN_BRIGHTNESS)
         brightness = MIN_BRIGHTNESS;
-    uint8_t value = _node.writeSingleRegister(SMARTDISPLAY_BRIGHTNESS, brightness);          // Set Brightness  
+    uint8_t value = _node.writeSingleRegister(SMARTDISPLAY_BRIGHTNESS, brightness);  // Set Brightness
     _brightness = brightness;
 
     //------- Debug Message -----------
     mySerial.print("SetBrightness to ");
     mySerial.print(_brightness);
-    if(value == _node.ku8MBSuccess)
+    if (value == _node.ku8MBSuccess)
         mySerial.println(" OK");
     else
-        mySerial.println(" failed");  
-    //---------------------------------        
+        mySerial.println(" failed");
+    //---------------------------------
 
     return true;
 }
 
 void Buzzer(uint8_t high) {
-    static uint8_t cycle = 1;   // Repeat count
+    static uint8_t cycle = 1;  // Repeat count
     //static uint8_t high = 10;   // Buzzer-ON counter
     static uint8_t low = 0;     // Buzzer-OFF counter
     static uint8_t active = 1;  // After power-on, the internal value of active is 1
 
-    active = !active;           // Load parameters to BEEP if active != last active
+    active = !active;  // Load parameters to BEEP if active != last active
     _node.writeSingleRegister(SMARTDISPLAY_BUZZER_CYCLE, cycle);
     _node.writeSingleRegister(SMARTDISPLAY_BUZZER_HIGH, high);
     _node.writeSingleRegister(SMARTDISPLAY_BUZZER_LOW, low);
@@ -181,7 +183,7 @@ void setup() {
 
     Serial.begin(SMARTDISPLAY_BAUDRATE);
     _node.begin(SMARTDISPLAY_SLAVE_ADDRESS, Serial);
-    
+
     mySerial.begin(38400);  // for Debug messages
 
     setBrightness(_brightness);
@@ -211,14 +213,14 @@ void Page0_Handler(bool init, uint16_t *values) {
         //mySerial.println(_brightness);
         //--------------------------------------------
     } else {
-        uint16_t value = readWidgetValue(WIDGET_P0_BUTTON_NEXT);     // Read button status
-        if (values[WIDGET_P0_BUTTON_NEXT] == 0 && value != 0) {      // Just pressed ?
-            setNextPage(PAGE_1);                                     // goto PAGE_1
+        uint16_t value = readWidgetValue(WIDGET_P0_BUTTON_NEXT);  // Read button status
+        if (values[WIDGET_P0_BUTTON_NEXT] == 0 && value != 0) {   // Just pressed ?
+            setNextPage(PAGE_1);                                  // goto PAGE_1
         }
         values[WIDGET_P0_BUTTON_NEXT] = value;  // Save button status
 
-        value = readWidgetValue(WIDGET_P0_SLIDER_BRIGHTNESS);       // Read slider value
-        if (value != _brightness) {                                 // Slider position changed ?
+        value = readWidgetValue(WIDGET_P0_SLIDER_BRIGHTNESS);  // Read slider value
+        if (value != _brightness) {                            // Slider position changed ?
             setBrightness(value);
         }
     }
@@ -263,7 +265,6 @@ void Page1_Handler(bool init, uint16_t *values) {
             Buzzer(60);
         }
         values[WIDGET_P1_BUTTON_BUZZER_3] = value;
-
     }
 }
 
@@ -291,8 +292,8 @@ void Page2_Handler(bool init, uint16_t *values) {
              * curve continues to advance.
              */
             static int lastVR = 0;
-            if(vr == lastVR) {
-                vr = vr > 1 ? vr - 1 : vr + 1;      // Make it different from last value to keep curve moving
+            if (vr == lastVR) {
+                vr = vr > 1 ? vr - 1 : vr + 1;  // Make it different from last value to keep curve moving
             }
             lastVR = vr;
 
