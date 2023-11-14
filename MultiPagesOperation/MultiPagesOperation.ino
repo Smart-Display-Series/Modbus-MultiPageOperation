@@ -25,20 +25,20 @@
 #define PAGE_2 2
 
 // Widget ID (The value must be consistent with the object index in GUI Builder)
-#define WIDGET_P0_TEXT_TITLE 0
-#define WIDGET_P0_BUTTON_NEXT 1
+#define WIDGET_P0_TEXT_TITLE        0
+#define WIDGET_P0_BUTTON_NEXT       1
 #define WIDGET_P0_SLIDER_BRIGHTNESS 2
 
-#define WIDGET_P1_TEXT_TITLE 0
-#define WIDGET_P1_BUTTON_NEXT 1
-#define WIDGET_P1_BUTTON_PREV 2
-#define WIDGET_P1_BUTTON_BUZZER_1 3
-#define WIDGET_P1_BUTTON_BUZZER_2 4
-#define WIDGET_P1_BUTTON_BUZZER_3 5
+#define WIDGET_P1_TEXT_TITLE        0
+#define WIDGET_P1_BUTTON_NEXT       1
+#define WIDGET_P1_BUTTON_PREV       2
+#define WIDGET_P1_BUTTON_BUZZER_1   3
+#define WIDGET_P1_BUTTON_BUZZER_2   4
+#define WIDGET_P1_BUTTON_BUZZER_3   5
 
-#define WIDGET_P2_TEXT_TITLE 0
-#define WIDGET_P2_BUTTON_PREV 1
-#define WIDGET_P2_GRAPH 2
+#define WIDGET_P2_TEXT_TITLE        0
+#define WIDGET_P2_BUTTON_PREV       1
+#define WIDGET_P2_GRAPH             2
 
 #define MAX_WIDGETS_PER_PAGE 6
 
@@ -118,7 +118,8 @@ uint8_t getPageCount() {
 bool setPageIndex(uint8_t pageIdx) {
 
     bool ret = false;
-    if ((_node.writeSingleRegister(SMARTDISPLAY_MODE, CONFIG_MODE) == _node.ku8MBSuccess) && (_node.writeSingleRegister(SMARTDISPLAY_SET_PAGE, (uint16_t)pageIdx) == _node.ku8MBSuccess)) {
+    if ((_node.writeSingleRegister(SMARTDISPLAY_MODE, CONFIG_MODE) == _node.ku8MBSuccess) && 
+        (_node.writeSingleRegister(SMARTDISPLAY_SET_PAGE, (uint16_t)pageIdx) == _node.ku8MBSuccess)) {
         delay(10);  // wait for loading widgets for new page
         if (_node.writeSingleRegister(SMARTDISPLAY_MODE, DISPLAY_MODE) == _node.ku8MBSuccess) {
             ret = true;
@@ -160,8 +161,8 @@ bool setBrightness(uint8_t brightness) {
 }
 
 void Buzzer(uint8_t high) {
-    static uint8_t cycle = 1;  // Repeat count
-    //static uint8_t high = 10;   // Buzzer-ON counter
+    static uint8_t cycle = 1;   // Repeat count
+    //static uint8_t high = 10; // Buzzer-ON counter
     static uint8_t low = 0;     // Buzzer-OFF counter
     static uint8_t active = 1;  // After power-on, the internal value of active is 1
 

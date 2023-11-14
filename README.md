@@ -6,7 +6,6 @@ This example shows switching pages,  buzzer, and brightness control with slider 
 * Arduino (Uno or Mega2560)
 * RS485 shield for Arduino (https://www.dfrobot.com/product-1024.html)
 * Variable resister (VR)
-* RS485 dongle
 
 ## Libraries
 * ModbusMaster (Install using Library Manager)
