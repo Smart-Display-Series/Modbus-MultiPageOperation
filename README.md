@@ -16,18 +16,20 @@ Reference GUI design for 3.5":
 
 ![Layout](Images/Layout.png)
 
-|Page|Widget ID |   Type  | Style |Pos X|Pos Y| Function          |
-|:--:|:--------:|:-------:|:-----:|:---:|:---:|:------------------|
-|  0 |     0    | Text    |   5   | 240 |  10 |                   |
-|    |     1    | Button  |   3   | 270 | 108 | Goto Page 1       |
-|    |     2    | HSlider |   1   |  35 | 188 | Adjust Brightness |
-|  1 |     0    | Text    |   5   |  10 |  10 |                   |
-|    |     1    | Button  |   3   | 270 | 108 | Goto Page 2       |
-|    |     2    | Button  |   2   |   6 | 108 | Goto Page 0       |
-|    |     3    | Button  |   1   | 133 |  96 | Buzzer            |
-|  2 |     0    | Text    |   5   |  10 |  10 |                   |
-|    |     1    | Button  |   2   |   6 | 108 | Goto Page 1       |
-|    |     2    | Graph   |   0   |  72 |  80 | A0 input curve    |
+|Page|Widget ID |        Type      | Style |Pos X|Pos Y| Function          |
+|:--:|:--------:|:----------------:|:-----:|:---:|:---:|:------------------|
+|  0 |     0    | Text             |   5   | 240 |  10 | Page Title        |
+|    |     1    | Button           |   3   | 270 | 108 | Goto Page 1       |
+|    |     2    | HorizontalSlider |   1   |  35 | 188 | Adjust Brightness |
+|  1 |     0    | Text             |   5   |  10 |  10 | Page Title        |
+|    |     1    | Button           |   3   | 270 | 108 | Goto Page 2       |
+|    |     2    | Button           |   2   |   6 | 108 | Goto Page 0       |
+|    |     3    | Button           |   1   |  50 | 170 | Buzzer (short)    |
+|    |     4    | Button           |   1   | 136 | 170 | Buzzer (medium)   |
+|    |     5    | Button           |   1   | 220 | 170 | Buzzer (long)     |
+|  2 |     0    | Text             |   5   |  10 |  10 | Page Title        |
+|    |     1    | Button           |   2   |   6 | 108 | Goto Page 1       |
+|    |     2    | Graph            |   0   |  72 |  80 | A0 input curve    |
 
 Please note that only Widget ID and Type matters. You are free to change other attributes.
 
