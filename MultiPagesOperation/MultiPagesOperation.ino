@@ -35,12 +35,20 @@
 #define WIDGET_P1_BUTTON_BUZZER_1   3
 #define WIDGET_P1_BUTTON_BUZZER_2   4
 #define WIDGET_P1_BUTTON_BUZZER_3   5
+#define WIDGET_P1_BUTTON_BUZZER_4   6
+#define WIDGET_P1_BUTTON_BUZZER_5   7
+#define WIDGET_P1_BUTTON_BUZZER_6   8
+#define WIDGET_P1_BUTTON_BUZZER_7   9
+#define WIDGET_P1_BUTTON_BUZZER_8   10
+#define WIDGET_P1_BUTTON_BUZZER_9   11
+#define WIDGET_P1_BUTTON_BUZZER_10  12
+#define WIDGET_P1_BUTTON_BUZZER_11  13
 
 #define WIDGET_P2_TEXT_TITLE        0
 #define WIDGET_P2_BUTTON_PREV       1
 #define WIDGET_P2_GRAPH             2
 
-#define MAX_WIDGETS_PER_PAGE 6
+#define MAX_WIDGETS_PER_PAGE 14
 
 // I/O
 #define METER_PIN A0
@@ -266,6 +274,54 @@ void Page1_Handler(bool init, uint16_t *values) {
             Buzzer(60);
         }
         values[WIDGET_P1_BUTTON_BUZZER_3] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_4);
+        if (values[WIDGET_P1_BUTTON_BUZZER_4] == 0 && value != 0) {
+            Buzzer(10);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_4] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_5);
+        if (values[WIDGET_P1_BUTTON_BUZZER_5] == 0 && value != 0) {
+            Buzzer(30);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_5] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_6);
+        if (values[WIDGET_P1_BUTTON_BUZZER_6] == 0 && value != 0) {
+            Buzzer(60);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_6] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_7);
+        if (values[WIDGET_P1_BUTTON_BUZZER_7] == 0 && value != 0) {
+            Buzzer(10);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_7] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_8);
+        if (values[WIDGET_P1_BUTTON_BUZZER_8] == 0 && value != 0) {
+            Buzzer(30);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_8] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_9);
+        if (values[WIDGET_P1_BUTTON_BUZZER_9] == 0 && value != 0) {
+            Buzzer(60);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_9] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_10);
+        if (values[WIDGET_P1_BUTTON_BUZZER_10] == 0 && value != 0) {
+            Buzzer(10);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_10] = value;
+
+        value = readWidgetValue(WIDGET_P1_BUTTON_BUZZER_11);
+        if (values[WIDGET_P1_BUTTON_BUZZER_11] == 0 && value != 0) {
+            Buzzer(30);
+        }
+        values[WIDGET_P1_BUTTON_BUZZER_11] = value;
     }
 }
 
